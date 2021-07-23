@@ -15,22 +15,53 @@ double calculator (text* calc_info, FILE* formula, char* file_name)
 
     counter = calc_info -> file_buffer;
     
-    return create_n ();
+    return create_exp ();
 }
 
 //=============================================================================================
 
-double create_n ()
+double create_nmb ()
 {   
     while (*counter == ' ')
         counter++;
 
     double out_nmb = atof (counter);
 
-    while (*counter != ' ')
+    while (isdigit (*counter) || *counter == '.')
         counter++;
 
     return out_nmb;
+}
+
+//=============================================================================================
+
+double create_exp ()
+{
+    double res_nmb = 0; 
+
+    while (*counter != '\0')
+    {
+        while (*counter == ' ')
+            counter++;   
+
+        if (isdigit (*counter))
+        {
+            res_nmb = create_nmb ();
+            printf ("\t\tIS [%c]\n", *counter);
+        } 
+        else if (*counter == '+')
+        {
+            counter++;
+            res_nmb += create_nmb ();    
+        }
+        else if (*counter == '-')
+        {
+            counter++; 
+            res_nmb -= create_nmb ();    
+        } 
+    }
+
+    return res_nmb;
 }
 
 //=============================================================================================
