@@ -16,6 +16,8 @@ int main (int argc, char** argv)
 
     fclose (formula);
     free_memory (&calc_info);
+
+    return 0;
 }
 
 //=============================================================================================

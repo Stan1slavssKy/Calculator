@@ -9,6 +9,15 @@
 double calculator (text* calc_info, FILE* formula, char* file_name);
 double create_nmb ();
 double create_exp ();
+inline void skip_spaces ();
+double create_t ();
+double create_p ();
+
+enum sign
+{
+    POS =  1,
+    NEG = -1
+};
 
 //=============================================================================================
 
