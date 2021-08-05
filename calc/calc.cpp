@@ -39,8 +39,8 @@ double create_nmb ()
 double create_exp ()
 {
     skip_spaces ();
-    sign   s  = POS;
-    
+    sign s = POS;
+
     if (*counter == '-')
     {
         counter++;
@@ -67,6 +67,8 @@ double create_exp ()
         res_nmb += create_t () * s;
     }
 
+    skip_spaces ();
+    
     return res_nmb;
 }
 
@@ -76,7 +78,7 @@ double create_t ()
 {
     skip_spaces ();
     
-    double res_nmb = create_p ();
+    double res_nmb = create_w ();
 
     while (*counter == '*' || *counter == '/')
     {
@@ -85,12 +87,12 @@ double create_t ()
         if (*counter == '*')
         {
             counter++;
-            res_nmb *= create_p ();
+            res_nmb *= create_w ();
         }
         else if (*counter == '/')
         {
             counter++;
-            res_nmb /= create_p ();
+            res_nmb /= create_w ();
         }   
     }
 
@@ -123,7 +125,46 @@ double create_p ()
         res_nmb = create_nmb ();
     }
 
+    skip_spaces ();
+
     return res_nmb;
+}
+
+//=============================================================================================
+
+double create_w ()
+{
+    skip_spaces ();
+
+    double res_nmb = create_p ();
+    double degrees [MAX_DEGREE] = {};
+   
+    double x     = 1;
+    int nmb_degr = 0;
+
+    while (*counter == '^')
+    {
+        counter++;
+
+        if (nmb_degr == MAX_DEGREE)
+        {
+            fprintf (stderr, "Too many degrees\n");
+            return NAN;
+        }
+        
+        degrees [nmb_degr++] = create_p ();
+
+        skip_spaces ();
+    }
+    
+    while (nmb_degr != 0)
+    { 
+        x = pow (degrees [--nmb_degr], x);
+    }
+
+    skip_spaces ();
+
+    return pow (res_nmb, x);
 }
 
 //=============================================================================================
